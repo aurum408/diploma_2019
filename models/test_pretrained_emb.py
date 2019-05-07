@@ -1,6 +1,6 @@
 import torchfile
 import torch
-#from torch.utils.serialization import load_lua
+# from torch.utils.serialization import load_lua
 import json
 
 if __name__ == '__main__':
@@ -9,5 +9,5 @@ if __name__ == '__main__':
     with open(pth, "r") as fp:
         data = json.load(fp)
 
-    data = list(sorted([(k,v) for k,v in data.items()], key=lambda x:x[1], reverse=True))
+    data = list(sorted([(k, v) for k, v in data.items()], key=lambda x: x[1], reverse=True))
     print("ok")

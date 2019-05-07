@@ -5,9 +5,9 @@ import json
 seed = 8735163
 train_test_val_split = "90/10/10"
 
-train_p=0.8
-test_p=0.1
-val_p=0.1
+train_p = 0.8
+test_p = 0.1
+val_p = 0.1
 
 if __name__ == '__main__':
     path2data = "/Users/anastasia/flowers102/cvpr2016_flowers"
@@ -28,9 +28,9 @@ if __name__ == '__main__':
         np.random.seed(seed)
         np.random.shuffle(f_ids)
         num_files = len(f_ids)
-        train_ids = f_ids[:int(num_files*train_p)]
-        test_ids = f_ids[int(num_files*train_p):int(num_files*train_p)+int(num_files*test_p)]
-        val_ids = f_ids[num_files - int(num_files*val_p):]
+        train_ids = f_ids[:int(num_files * train_p)]
+        test_ids = f_ids[int(num_files * train_p):int(num_files * train_p) + int(num_files * test_p)]
+        val_ids = f_ids[num_files - int(num_files * val_p):]
 
         train_data.update({class_id: train_ids})
         test_data.update({class_id: test_ids})

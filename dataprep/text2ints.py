@@ -1,7 +1,6 @@
 import os
 import json
 
-
 if __name__ == '__main__':
     with open("/Users/anastasia/PycharmProjects/diploma/outputs/corpus_word2int_no_freq_w.json", "r") as fp:
         corpus = json.load(fp)
@@ -41,6 +40,7 @@ if __name__ == '__main__':
             class_dct.update({image_id: lines2int})
         all_text.update({class_id: class_dct})
 
-    with open(os.path.join("/Users/anastasia/PycharmProjects/diploma/outputs", "all_text2ints_no_freq_w.json"), "w") as fp:
+    with open(os.path.join("/Users/anastasia/PycharmProjects/diploma/outputs", "all_text2ints_no_freq_w.json"),
+              "w") as fp:
         json.dump(all_text, fp)
     print("ok")

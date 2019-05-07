@@ -2,7 +2,6 @@ import os
 import json
 from itertools import chain
 
-
 if __name__ == '__main__':
     path2data = "/Users/anastasia/flowers102/cvpr2016_flowers"
     p2textc10 = "text_c10"

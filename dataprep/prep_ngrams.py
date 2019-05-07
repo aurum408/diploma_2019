@@ -2,11 +2,11 @@ import os
 import numpy as np
 import json
 from itertools import chain
-#from progressbar import ProgressBar
+# from progressbar import ProgressBar
 from multiprocessing import Pool
 
 seed = 896723765
-#uniq_words = 6385
+# uniq_words = 6385
 
 
 uniq_words_no_freq = 6376
@@ -16,7 +16,7 @@ pairs_dict = None
 
 def line2ngrams(line, n=2):
     ln = len(line)
-    ngrams = [[line[i+j] for j in range(n)] for i in range(ln-(n-1))]
+    ngrams = [[line[i + j] for j in range(n)] for i in range(ln - (n - 1))]
     return ngrams
 
 
@@ -70,7 +70,7 @@ if __name__ == '__main__':
                 pairs_dct.update({a: [b]})
 
     all_ngrams = list(chain.from_iterable(all_ngrams))
-    #all_ngrams_bad = [anti_ngram(n_gram, pairs_dct, uniq_words) for n_gram in all_ngrams]
+    # all_ngrams_bad = [anti_ngram(n_gram, pairs_dct, uniq_words) for n_gram in all_ngrams]
 
     # bar = ProgressBar()
     # for ngram in bar(all_ngrams):
@@ -83,6 +83,8 @@ if __name__ == '__main__':
     all_ngrams = np.asarray(all_ngrams).astype("int16")
     all_ngrams_bad = np.asarray(all_ngrams_bad).astype("int16")
 
-    np.save(os.path.join("/Users/anastasia/PycharmProjects/diploma/outputs", "all_ngrams_no_freq_words.npy"), all_ngrams)
-    np.save(os.path.join("/Users/anastasia/PycharmProjects/diploma/outputs", "all_ngrams_bad_no_freq_words.npy"), all_ngrams_bad)
+    np.save(os.path.join("/Users/anastasia/PycharmProjects/diploma/outputs", "all_ngrams_no_freq_words.npy"),
+            all_ngrams)
+    np.save(os.path.join("/Users/anastasia/PycharmProjects/diploma/outputs", "all_ngrams_bad_no_freq_words.npy"),
+            all_ngrams_bad)
     print("ok")

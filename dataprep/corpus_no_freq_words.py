@@ -11,7 +11,7 @@ def text2ints(fpath, corpus_dict, freq_words):
     lines = list(map(lambda x: [_.split(".")[0] for _ in x], lines))
     lines = list(map(lambda x: [_.split(",")[0] for _ in x], lines))
 
-    lines_int = list(map(lambda x:[corpus_dict[_] for _ in x if _ not in freq_words], lines))
+    lines_int = list(map(lambda x: [corpus_dict[_] for _ in x if _ not in freq_words], lines))
     return {_id: lines_int}
 
 

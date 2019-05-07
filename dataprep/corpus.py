@@ -11,12 +11,14 @@ def text2ints(fpath, corpus_dict):
     lines = list(map(lambda x: [_.split(".")[0] for _ in x], lines))
     lines = list(map(lambda x: [_.split(",")[0] for _ in x], lines))
 
-    lines_int = list(map(lambda x:[corpus_dict[_] for _ in x], lines))
+    lines_int = list(map(lambda x: [corpus_dict[_] for _ in x], lines))
     return {_id: lines_int}
+
 
 def ints2text(ints_line, c_dict):
     line = [c_dict[i] for i in ints_line]
     return line
+
 
 if __name__ == '__main__':
 
@@ -24,10 +26,10 @@ if __name__ == '__main__':
     p2textc10 = "text_c10"
 
     _path = os.path.join(path2data, p2textc10)
-    all_folders = [os.path.join(_path,name) for name in os.listdir(_path) if os.path.isdir(os.path.join(_path,name))]
+    all_folders = [os.path.join(_path, name) for name in os.listdir(_path) if os.path.isdir(os.path.join(_path, name))]
 
-    all_text_files = list(chain.from_iterable(list(map(lambda x:[os.path.join(x, name) for name in os.listdir(x)
-                                                                 if name.endswith(".txt")], all_folders))))
+    all_text_files = list(chain.from_iterable(list(map(lambda x: [os.path.join(x, name) for name in os.listdir(x)
+                                                                  if name.endswith(".txt")], all_folders))))
 
     corpus = []
     for file in all_text_files:
@@ -49,7 +51,7 @@ if __name__ == '__main__':
             uniq_words += 1
 
     encoded = text2ints(all_text_files[0], corpus_dict)
-    reversed = {v:k for k, v in corpus_dict.items()}
+    reversed = {v: k for k, v in corpus_dict.items()}
 
     with open(os.path.join("/Users/anastasia/PycharmProjects/diploma/outputs", "corpus_word2int.json"), "w") as fp:
         json.dump(corpus_dict, fp)

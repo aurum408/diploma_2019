@@ -3,7 +3,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-
 uniq_words = 6385
 
 
@@ -20,7 +19,8 @@ class W2Vec(torch.nn.Module):
     def forward(self, x):
         x0_emb = self.embedding(x[0])
         x1_emb = self.embedding(x[1])
-        cos_distance = torch.div(torch.sum(x0_emb*x1_emb, dim=-1), (torch.norm(x0_emb, dim=-1) * torch.norm(x1_emb, dim=-1)))
+        cos_distance = torch.div(torch.sum(x0_emb * x1_emb, dim=-1),
+                                 (torch.norm(x0_emb, dim=-1) * torch.norm(x1_emb, dim=-1)))
 
         return cos_distance
 
@@ -43,26 +43,28 @@ def int2one_hot(int_inp, voc_size):
 
     return x0_one_hot, x1_one_hot
 
+
 def int2onehot(ngams, u_words):
     num_ngrams = ngams.shape[0]
     ngrams_onehot = np.zeros((num_ngrams, 2, u_words))
 
-    #bar = progressbar.ProgressBar()
+    # bar = progressbar.ProgressBar()
     for i in range(num_ngrams):
-        #print(i)
+        # print(i)
         idx0 = ngams[i][0]
         idx1 = ngams[i][1]
         ngrams_onehot[i][0][idx0] = 1
         ngrams_onehot[i][1][idx1] = 1
     return ngrams_onehot
 
+
 def w2v_gen(true_examples, bad_examples, bs, voc_size=6385, onehot=False):
     num_ex = true_examples.shape[0]
     while True:
         item_s = bs // 2
         for j in range(0, num_ex, item_s):
-            true_inp = true_examples[j:j+item_s]
-            bad_inp = bad_examples[j:j+item_s]
+            true_inp = true_examples[j:j + item_s]
+            bad_inp = bad_examples[j:j + item_s]
             sh = bad_inp.shape[0]
             true_label = np.zeros((sh))
             bad_label = np.ones((sh))
@@ -80,6 +82,7 @@ def w2v_gen(true_examples, bad_examples, bs, voc_size=6385, onehot=False):
 
             yield [x0, x1], y
 
+
 if __name__ == '__main__':
     all_2grams = np.load("/Users/anastasia/PycharmProjects/diploma/outputs/all_ngrams.npy")
     all_2grams_bad = np.load("/Users/anastasia/PycharmProjects/diploma/outputs/all_ngrams_bad.npy")
@@ -87,12 +90,12 @@ if __name__ == '__main__':
     gen = w2v_gen(all_2grams, all_2grams_bad, bs=1000, onehot=False)
 
     net = W2Vec(uniq_words, 100, "/Users/anastasia/PycharmProjects/diploma/outputs/model_200")
-    #torch.save(net.embedding, "/Users/anastasia/PycharmProjects/diploma/outputs/model")
+    # torch.save(net.embedding, "/Users/anastasia/PycharmProjects/diploma/outputs/model")
     criterion = torch.nn.MSELoss(reduction='mean')
-    #optimizer = torch.optim.SGD(net.parameters(), lr=1e-2, momentum=0.9)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=1e-2, momentum=0.9)
     lr = 1e-3
     optimizer = torch.optim.Adagrad(net.parameters(), lr=lr)
-    #emb = nn.Embedding(6385, 100)
+    # emb = nn.Embedding(6385, 100)
     # print("ok")
     # for i in range(10):
     #     x, y = next(gen)
@@ -100,6 +103,7 @@ if __name__ == '__main__':
     #     print("ok")
 
     from matplotlib import pyplot as plt
+
     all_loss = []
     all_loss_mean = []
     for j in range(300):
@@ -114,7 +118,7 @@ if __name__ == '__main__':
                 print("err")
                 continue
 
-            #print(loss.data.numpy())
+            # print(loss.data.numpy())
             all_loss.append(loss.data.numpy())
             optimizer.zero_grad()
             loss.backward()
@@ -124,14 +128,13 @@ if __name__ == '__main__':
 
         plt.figure()
         plt.plot(all_loss_mean)
-        #plt.show()
+        # plt.show()
         plt.savefig("/Users/anastasia/PycharmProjects/diploma/outputs/history_804/loss_adagrad.png")
         plt.close()
 
         if j % 50 == 0:
             torch.save(net.embedding, "/Users/anastasia/PycharmProjects/diploma/outputs/model_804_{}".format(str(j)))
         if j % 30 == 0 and j > 0:
-            lr = lr*0.1
+            lr = lr * 0.1
             print("optimizer se to {}".format(lr))
             optimizer = torch.optim.Adagrad(net.parameters(), lr=lr)
-

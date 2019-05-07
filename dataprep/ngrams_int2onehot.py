@@ -12,12 +12,13 @@ def int2onehot(ngams, u_words):
 
     bar = progressbar.ProgressBar()
     for i in bar(range(num_ngrams)):
-        #print(i)
+        # print(i)
         idx0 = ngams[i][0]
         idx1 = ngams[i][1]
         ngrams_onehot[i][0][idx0] = 1
         ngrams_onehot[i][1][idx1] = 1
     return ngrams_onehot
+
 
 if __name__ == '__main__':
     all_2grams = np.load("/Users/anastasia/PycharmProjects/diploma/outputs/all_ngrams.npy")
@@ -28,11 +29,10 @@ if __name__ == '__main__':
     h5f.create_dataset("ngrams", data=all_2grams_onehot)
     h5f.close()
 
-    #np.save("/Users/anastasia/PycharmProjects/diploma/outputs/all_ngrams_onehot.npy", all_2grams_onehot)
+    # np.save("/Users/anastasia/PycharmProjects/diploma/outputs/all_ngrams_onehot.npy", all_2grams_onehot)
     all_2grams_onehot = None
 
     all_2grams_onehot_bad = int2onehot(all_2grams_bad, uniq_words)
     h5f = h5.File("/Users/anastasia/PycharmProjects/diploma/outputs/all_ngrams_onehot_bad.hdf5", "w")
     h5f.create_dataset("ngrams", data=all_2grams_onehot_bad)
     h5f.close()
-
